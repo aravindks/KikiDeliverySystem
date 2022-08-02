@@ -1,0 +1,16 @@
+{
+  "name": "kikideliverysystem",
+  "version": "1.0.0",
+  "description": "A Delivery management CLI tool",
+  "main": "app/index.ts",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "npx tsc"
+  },
+  "author": "Aravind",
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
