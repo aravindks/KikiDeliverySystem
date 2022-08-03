@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.init = void 0;
 const readline = require('readline');
 const Package_1 = require("./class/Package");
 const lineReader = readline.createInterface({
@@ -17,6 +18,7 @@ lineReader.on('line', function (line) {
         lineReader.close();
     }
 }).on('close', function () {
+    lineReader.close();
     init(lines);
 });
 function init(lines) {
@@ -33,3 +35,4 @@ function init(lines) {
         console.log(pkg.id, pkg.discount, pkg.totalCost);
     });
 }
+exports.init = init;
