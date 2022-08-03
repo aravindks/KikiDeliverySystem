@@ -26,10 +26,10 @@ function init(lines) {
     let pkgList = [];
     for (let i = 1; i < noOfPkgs + 1; i++) {
         const temp = lines[i].split(" ");
-        const pkg = new Package_1.Package(temp[0], parseInt(temp[2]), parseInt(temp[1]), temp[4], baseCost);
+        const pkg = new Package_1.Package(temp[0], parseInt(temp[2]), parseInt(temp[1]), temp[3], baseCost);
         pkgList.push(pkg);
     }
     pkgList.forEach(function (pkg) {
-        console.log("pkg", pkg.cost, pkg.id);
+        console.log(pkg.id, pkg.discount, pkg.totalCost);
     });
 }
