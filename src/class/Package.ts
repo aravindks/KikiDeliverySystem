@@ -8,7 +8,7 @@ export class Package {
     discountFactor: number;
     discount: number;
     totalCost: number;
-    constructor(id:string, distance: number, weight: number, couponValue = 'NODISCOUNT', basecost: number){
+    constructor(id:string, weight: number, distance: number, couponValue = 'NODISCOUNT', basecost: number){
         this.id = id;
         this.distance= distance;
         this.weight = weight;

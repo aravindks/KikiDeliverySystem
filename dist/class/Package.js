@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Package = void 0;
 const Offer_1 = require("./Offer");
 class Package {
-    constructor(id, distance, weight, couponValue = 'NODISCOUNT', basecost) {
+    constructor(id, weight, distance, couponValue = 'NODISCOUNT', basecost) {
         this.id = id;
         this.distance = distance;
         this.weight = weight;
