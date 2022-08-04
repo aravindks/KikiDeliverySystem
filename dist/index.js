@@ -1,63 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.init = void 0;
 const readline = require('readline');
-const Package_1 = require("./class/Package");
+const package_1 = require("./class/package");
 const general_1 = require("./error/general");
+const deliveryParams_1 = require("./class/params/deliveryParams");
+const packageParams_1 = require("./class/params/packageParams");
 const lineReader = readline.createInterface({
     input: process.stdin,
-    output: process.stdout,
-    terminal: false
+    output: process.stdout
 });
-let lines = [];
-lineReader.on('line', function (line) {
-    let lineStr = line.toString().trim();
-    if (lineStr.length) {
-        lines.push(lineStr);
-    }
-    else {
-        init(lines);
-        lineReader.close();
-    }
-}).on('close', function () {
-    lineReader.removeAllListeners();
-    process.exit();
-});
-function init(lines) {
+function prompt() {
+    return new Promise((resolve) => {
+        lineReader.on('line', (line) => {
+            resolve(line);
+        });
+    });
+}
+async function init() {
     try {
-        const { baseCost, noOfPkgs } = parseDeliveryParams(lines[0]);
+        let data = (await prompt()).split(" ");
+        const deliveryInfo = new deliveryParams_1.DeliveryParams(data);
         let pkgList = [];
-        for (let i = 1; i < noOfPkgs + 1; i++) {
-            const { pkgId, pkgWeight, pkgDistance, pkgCoupon } = parsePackageParams(lines[i]);
-            const pkg = new Package_1.Package(pkgId, pkgWeight, pkgDistance, pkgCoupon, baseCost);
+        for (let i = 0; i < deliveryInfo.noOfPkgs; i++) {
+            let info = (await prompt()).split(" ");
+            const packageInfo = new packageParams_1.PackageParams(info);
+            const pkg = new package_1.Package(packageInfo.id, packageInfo.weight, packageInfo.distance, packageInfo.coupon, deliveryInfo.baseCost);
             pkgList.push(pkg);
         }
-        pkgList.forEach(function (pkg) {
-            console.log(pkg.id, pkg.discount, pkg.totalCost);
-        });
+        let vehicleinfo = (await prompt()).split(" ");
+        if (!vehicleinfo[0]) {
+            pkgList.forEach(function (pkg) {
+                console.log(pkg.id, pkg.discount, pkg.totalCost);
+            });
+        }
     }
     catch (e) {
         (0, general_1.reportError)({ message: (0, general_1.getErrorMessage)(e) });
     }
 }
-exports.init = init;
-function parseDeliveryParams(param) {
-    const deliveryInfo = param.split(" ");
-    const baseCost = parseInt(deliveryInfo[0]);
-    const noOfPkgs = parseInt(deliveryInfo[1]);
-    if (isNaN(baseCost) || isNaN(noOfPkgs)) {
-        throw new Error("Please Enter Valid Parameters");
-    }
-    return { baseCost, noOfPkgs };
-}
-function parsePackageParams(param) {
-    const packageInfo = param.split(" ");
-    const pkgId = packageInfo[0];
-    const pkgWeight = parseInt(packageInfo[1]);
-    const pkgDistance = parseInt(packageInfo[2]);
-    const pkgCoupon = packageInfo[3];
-    if (isNaN(pkgWeight) || isNaN(pkgDistance)) {
-        throw new Error("Please Enter Valid Parameters");
-    }
-    return { pkgId, pkgWeight, pkgDistance, pkgCoupon };
-}
+init().then(() => lineReader.close());

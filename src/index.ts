@@ -1,66 +1,42 @@
 const readline = require('readline');
-import { Package } from "./class/Package";
+import { Package } from "./class/package";
 import { getErrorMessage, reportError } from "./error/general";
+import { DeliveryParams } from "./class/params/deliveryParams";
+import { PackageParams } from "./class/params/packageParams";
 
 const lineReader = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
-
-let lines:string[] = [];
-
-lineReader.on('line', function(line:any) {
-let lineStr = line.toString().trim();
-if (lineStr.length) {
-    lines.push(lineStr);
-} else {
-    init(lines);
-    lineReader.close();
-}
-}).on('close', function() {
-    lineReader.removeAllListeners();
-    process.exit();
+  input: process.stdin,
+  output: process.stdout
 })
 
-export function init(lines: string[]){
-    try {
-        const { baseCost, noOfPkgs } = parseDeliveryParams(lines[0]);
-        let pkgList: Package[] = [];
-        for(let i =1 ; i < noOfPkgs+1; i++) {
-            const {pkgId, pkgWeight, pkgDistance, pkgCoupon} = parsePackageParams(lines[i]);
-            const pkg = new Package(pkgId, pkgWeight, pkgDistance, pkgCoupon, baseCost);
-            pkgList.push(pkg);
-        }
-        pkgList.forEach(function(pkg){
-            console.log(pkg.id, pkg.discount, pkg.totalCost);
-        })
-    } catch(e){
-        reportError({message: getErrorMessage(e)})
-    }
+function prompt(): Promise<string> {
+  return new Promise((resolve) => {
+    lineReader.on('line', (line: string) => {
+          resolve(line);
+      })
+  })
 }
 
-function parseDeliveryParams(param: string): {baseCost:number, noOfPkgs:number} {
-    const deliveryInfo = param.split(" ");
-    const baseCost = parseInt(deliveryInfo[0]);
-    const noOfPkgs = parseInt(deliveryInfo[1]);
-    if(isNaN(baseCost)|| isNaN(noOfPkgs)){
-        throw new Error("Please Enter Valid Parameters");
+async function init() {
+  try {
+    let data = (await prompt()).split(" ");
+    const deliveryInfo = new DeliveryParams(data);
+    let pkgList: Package[] = [];
+    for(let i =0 ; i < deliveryInfo.noOfPkgs; i++) {
+      let info = (await prompt()).split(" ");
+      const packageInfo = new PackageParams(info);
+      const pkg = new Package(packageInfo.id, packageInfo.weight, packageInfo.distance, packageInfo.coupon, deliveryInfo.baseCost);
+      pkgList.push(pkg);
     }
-    return { baseCost, noOfPkgs}
+    let vehicleinfo = (await prompt()).split(" ");
+    if(!vehicleinfo[0]){
+      pkgList.forEach(function(pkg){
+        console.log(pkg.id, pkg.discount, pkg.totalCost);
+      })
+    }
+  } catch(e){
+    reportError({message: getErrorMessage(e)})
+  }
 }
 
-function parsePackageParams(param: string): { pkgId: string, pkgWeight: number, pkgDistance: number, pkgCoupon: string}{
-    const packageInfo = param.split(" ");
-    const pkgId = packageInfo[0];
-    const pkgWeight = parseInt(packageInfo[1]);
-    const pkgDistance = parseInt(packageInfo[2]);
-    const pkgCoupon = packageInfo[3];
-    if(isNaN(pkgWeight)|| isNaN(pkgDistance)){
-        throw new Error("Please Enter Valid Parameters");
-    }
-    return {pkgId, pkgWeight, pkgDistance, pkgCoupon}
-}
-
-
-
+init().then(() => lineReader.close())

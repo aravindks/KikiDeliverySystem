@@ -1,4 +1,4 @@
-import { Offer } from "./Offer";
+import { Offer } from "./offer";
 
 export class Package {
     id: string;

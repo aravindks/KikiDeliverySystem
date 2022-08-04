@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Package = void 0;
-const Offer_1 = require("./Offer");
+const offer_1 = require("./offer");
 class Package {
     constructor(id, weight, distance, couponValue = 'NODISCOUNT', basecost) {
         this.id = id;
         this.distance = distance;
         this.weight = weight;
         this.deliveryCost = this.getDeliveryCost(distance, weight, basecost);
-        let offer = new Offer_1.Offer(couponValue, distance, weight);
+        let offer = new offer_1.Offer(couponValue, distance, weight);
         this.discountFactor = offer.discountFactor;
         this.discount = Math.abs(this.deliveryCost * this.discountFactor);
         this.totalCost = this.deliveryCost - this.discount;
