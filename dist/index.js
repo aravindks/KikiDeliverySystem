@@ -5,6 +5,8 @@ const package_1 = require("./class/package");
 const general_1 = require("./error/general");
 const deliveryParams_1 = require("./class/params/deliveryParams");
 const packageParams_1 = require("./class/params/packageParams");
+const shipmentService_1 = require("./service/shipmentService");
+const vehicleParams_1 = require("./class/params/vehicleParams");
 const lineReader = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -16,11 +18,16 @@ function prompt() {
         });
     });
 }
+function output(pkgList) {
+    pkgList.forEach(function (pkg) {
+        console.log(pkg.id, pkg.discount, pkg.totalCost);
+    });
+}
 async function init() {
     try {
+        let pkgList = [];
         let data = (await prompt()).split(" ");
         const deliveryInfo = new deliveryParams_1.DeliveryParams(data);
-        let pkgList = [];
         for (let i = 0; i < deliveryInfo.noOfPkgs; i++) {
             let info = (await prompt()).split(" ");
             const packageInfo = new packageParams_1.PackageParams(info);
@@ -29,9 +36,13 @@ async function init() {
         }
         let vehicleinfo = (await prompt()).split(" ");
         if (!vehicleinfo[0]) {
-            pkgList.forEach(function (pkg) {
-                console.log(pkg.id, pkg.discount, pkg.totalCost);
-            });
+            output(pkgList);
+        }
+        else {
+            let shipmentInfo = new vehicleParams_1.VehicleParams(vehicleinfo);
+            let shipmentService = new shipmentService_1.ShipmentService();
+            let estimated = shipmentService.estimate(shipmentInfo.noOfVehicles, shipmentInfo.maxSpeed, shipmentInfo.maxWeight, pkgList);
+            output(estimated);
         }
     }
     catch (e) {

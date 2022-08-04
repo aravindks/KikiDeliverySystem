@@ -8,6 +8,8 @@ export class Package {
     discountFactor: number;
     discount: number;
     totalCost: number;
+    deliveryTime: number;
+
     constructor(id:string, weight: number, distance: number, couponValue = 'NODISCOUNT', basecost: number){
         this.id = id;
         this.distance= distance;
@@ -20,10 +22,11 @@ export class Package {
         
         this.discount = Math.abs(this.deliveryCost * this.discountFactor);
         this.totalCost = this.deliveryCost - this.discount;
+        this.deliveryTime = 0;
     }
     
+    // logic for delivery cost calculation
     getDeliveryCost(distance: number, weight: number, basecost: number){
-        // logic for delivery cost calculation
         return (basecost + (weight * 10) + (distance * 5));
     }
 }

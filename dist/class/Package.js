@@ -12,6 +12,7 @@ class Package {
         this.discountFactor = offer.discountFactor;
         this.discount = Math.abs(this.deliveryCost * this.discountFactor);
         this.totalCost = this.deliveryCost - this.discount;
+        this.deliveryTime = 0;
     }
     getDeliveryCost(distance, weight, basecost) {
         return (basecost + (weight * 10) + (distance * 5));
