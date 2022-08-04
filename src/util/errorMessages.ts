@@ -1,3 +1,3 @@
 export enum ErrorMessages {
-    INVALIDPARAM= "Please enter valid parameters"
+  INVALIDPARAM = 'Please enter valid parameters',
 }

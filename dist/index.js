@@ -20,7 +20,7 @@ function prompt() {
 }
 function output(pkgList) {
     pkgList.forEach(function (pkg) {
-        console.log(pkg.id, pkg.discount, pkg.totalCost);
+        console.log(pkg.id, pkg.discount, pkg.totalCost, pkg.deliveryTime ? pkg.deliveryTime : null);
     });
 }
 async function init() {
