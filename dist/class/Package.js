@@ -15,7 +15,7 @@ class Package {
         this.deliveryTime = 0;
     }
     getDeliveryCost(distance, weight, basecost) {
-        return (basecost + (weight * 10) + (distance * 5));
+        return basecost + weight * 10 + distance * 5;
     }
 }
 exports.Package = Package;

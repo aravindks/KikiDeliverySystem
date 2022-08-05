@@ -5,6 +5,7 @@ import { DeliveryParams } from './class/params/deliveryParams'
 import { PackageParams } from './class/params/packageParams'
 import { ShipmentService } from './service/shipmentService'
 import { VehicleParams } from './class/params/vehicleParams'
+import { PackageList } from './class/packageList'
 
 const lineReader = readline.createInterface({
   input: process.stdin,
@@ -19,20 +20,25 @@ function prompt(): Promise<string> {
   })
 }
 
-function output(pkgList: Package[]): void {
+function output(pkgList: Package[], displayDeliveryTime: Boolean): void {
   pkgList.forEach(function (pkg) {
-    console.log(
+    displayDeliveryTime ? console.log(
       pkg.id,
-      pkg.discount,
-      pkg.totalCost,
-      pkg.deliveryTime ? pkg.deliveryTime : null
-    )
+      pkg.discount.toFixed(2),
+      pkg.totalCost.toFixed(2),
+      pkg.deliveryTime.toFixed(2)
+    ) : console.log(
+      pkg.id,
+      pkg.discount.toFixed(2),
+      pkg.totalCost.toFixed(2),
+    );
   })
 }
 
 async function init() {
   try {
-    let pkgList: Package[] = []
+    let pkgList = new PackageList();
+    let displayDeliveryTime = false;
 
     // parse first set of parameters
     let data = (await prompt()).split(' ')
@@ -49,7 +55,7 @@ async function init() {
         packageInfo.coupon,
         deliveryInfo.baseCost
       )
-      pkgList.push(pkg)
+      pkgList.packages.push(pkg)
     }
 
     // parse third set of parameters with vehicle info
@@ -57,17 +63,18 @@ async function init() {
 
     // Print output
     if (!vehicleinfo[0]) {
-      output(pkgList)
+      pkgList.printWithoutDeliveryTime();
     } else {
       let shipmentInfo = new VehicleParams(vehicleinfo)
       let shipmentService = new ShipmentService()
-      let estimated = shipmentService.estimate(
+      let estimated = shipmentService.claculateDeliveryTime(
         shipmentInfo.noOfVehicles,
         shipmentInfo.maxSpeed,
         shipmentInfo.maxWeight,
-        pkgList
+        pkgList.packages
       )
-      output(estimated)
+      displayDeliveryTime = true;
+      output(estimated, displayDeliveryTime);
     }
   } catch (e) {
     reportError({ message: getErrorMessage(e) })

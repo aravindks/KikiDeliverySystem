@@ -6,8 +6,10 @@ class VehicleParams {
     constructor(param) {
         this.noOfVehicles = parseInt(param[0]);
         this.maxSpeed = parseInt(param[1]);
-        this.maxWeight = parseInt(param[1]);
-        if (isNaN(this.noOfVehicles) || isNaN(this.maxSpeed) || isNaN(this.maxWeight)) {
+        this.maxWeight = parseInt(param[2]);
+        if (isNaN(this.noOfVehicles) ||
+            isNaN(this.maxSpeed) ||
+            isNaN(this.maxWeight)) {
             throw new Error(errorMessages_1.ErrorMessages.INVALIDPARAM);
         }
     }

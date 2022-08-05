@@ -7,7 +7,7 @@ export class VehicleParams {
   constructor(param: string[]) {
     this.noOfVehicles = parseInt(param[0])
     this.maxSpeed = parseInt(param[1])
-    this.maxWeight = parseInt(param[1])
+    this.maxWeight = parseInt(param[2])
     if (
       isNaN(this.noOfVehicles) ||
       isNaN(this.maxSpeed) ||

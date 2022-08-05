@@ -8,6 +8,6 @@ function getErrorMessage(error) {
 }
 exports.getErrorMessage = getErrorMessage;
 const reportError = ({ message }) => {
-    console.log("Error: " + message);
+    console.log('Error: ' + message);
 };
 exports.reportError = reportError;

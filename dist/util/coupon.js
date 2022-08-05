@@ -7,7 +7,7 @@ exports.coupon = {
         maxWeight: 200,
         minDistance: 0,
         maxDistance: 200,
-        value: 0.10,
+        value: 0.1,
     },
     OFR002: {
         minWeight: 100,
@@ -29,5 +29,5 @@ exports.coupon = {
         minDistance: 0,
         maxDistance: Number.MAX_SAFE_INTEGER,
         value: 0,
-    }
+    },
 };
