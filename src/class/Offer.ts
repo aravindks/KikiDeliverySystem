@@ -1,22 +1,22 @@
-import { coupon } from '../util/coupon'
+import { Coupon } from '../util/coupon'
 
-type Keys = keyof typeof coupon
-type Values = typeof coupon[Keys]
+type Keys = keyof typeof Coupon
+type Values = typeof Coupon[Keys]
 
 export class Offer {
   discountFactor: number
   value: string
 
   constructor(offer: string, distance: number, weight: number) {
-    this.value = coupon.hasOwnProperty(offer.toUpperCase())
+    this.value = Coupon.hasOwnProperty(offer.toUpperCase())
       ? offer.toUpperCase()
-      : 'NODISCOUNT'
+      : Coupon.NODISCOUNT.text
 
     this.discountFactor = this.getDiscountedFactor(distance, weight)
   }
 
   getDiscountedFactor(distance: number, weight: number): number {
-    let applicableOffer = coupon[this.value as Keys]
+    let applicableOffer = Coupon[this.value as Keys]
     if (this.isDiscountApplicable(applicableOffer, distance, weight)) {
       return applicableOffer.value
     }
