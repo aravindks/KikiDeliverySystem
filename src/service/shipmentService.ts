@@ -1,4 +1,4 @@
-import { Package } from 'src/class/package'
+import { PackageList } from '../class/packageList';
 import { VehicleList } from '../class/vehicleList';
 
 export class ShipmentService {
@@ -6,26 +6,26 @@ export class ShipmentService {
     noOfVehicles: number,
     maxSpeed: number,
     maxWeight: number,
-    pkgs: Package[]
-  ) {
-    pkgs = pkgs.sort((a, b) => b.weight - a.weight);
+    pkgList: PackageList
+  ): PackageList {
+    pkgList = pkgList.sortByWeight();
     let shipments = [];
     let counter = 0;
-    while (counter < pkgs.length) {
+    while (counter < pkgList.packages.length) {
       let containerWeight = 0;
       let container = [];
 
-      for (let i = counter; i < pkgs.length; i++) {
-        if(pkgs[i].weight > maxWeight){
+      for (let i = counter; i < pkgList.packages.length; i++) {
+        if(pkgList.packages[i].weight > maxWeight){
           counter++;
           break;
         }
-        if (containerWeight + pkgs[i].weight > maxWeight) {
+        if (containerWeight + pkgList.packages[i].weight > maxWeight) {
           break;
         }
         counter++;
-        containerWeight += pkgs[i].weight;
-        container.push(pkgs[i]);
+        containerWeight += pkgList.packages[i].weight;
+        container.push(pkgList.packages[i]);
       }
       if(container.length > 0){
         shipments.push(container);
@@ -54,10 +54,10 @@ export class ShipmentService {
         }
         vehiclesList.vehicles[0].time += 2 * maxTime;
       }
-      pkgs = pkgs.sort((a, b) => a.id.localeCompare(b.id));
-      return pkgs;
+      pkgList = pkgList.sortById();
+      return pkgList;
     }
-    pkgs = pkgs.sort((a, b) => a.id.localeCompare(b.id));
-    return pkgs;
+    pkgList = pkgList.sortById();
+    return pkgList;
   }
 }

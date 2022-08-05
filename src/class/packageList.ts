@@ -7,6 +7,16 @@ export class PackageList {
     this.packages = [];
   }
 
+  sortByWeight(){
+    this.packages.sort((a, b) => b.weight - a.weight);
+    return this;
+  }
+
+  sortById(){
+    this.packages.sort((a, b) => a.id.localeCompare(b.id));
+    return this;
+  }
+
   printWithDeliveryTime(){
     this.packages.forEach(function (pkg) {
       console.log(

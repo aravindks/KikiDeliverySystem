@@ -19,15 +19,9 @@ function prompt() {
         });
     });
 }
-function output(pkgList, displayDeliveryTime) {
-    pkgList.forEach(function (pkg) {
-        displayDeliveryTime ? console.log(pkg.id, pkg.discount.toFixed(2), pkg.totalCost.toFixed(2), pkg.deliveryTime.toFixed(2)) : console.log(pkg.id, pkg.discount.toFixed(2), pkg.totalCost.toFixed(2));
-    });
-}
 async function init() {
     try {
         let pkgList = new packageList_1.PackageList();
-        let displayDeliveryTime = false;
         let data = (await prompt()).split(' ');
         const deliveryInfo = new deliveryParams_1.DeliveryParams(data);
         for (let i = 0; i < deliveryInfo.noOfPkgs; i++) {
@@ -43,9 +37,8 @@ async function init() {
         else {
             let shipmentInfo = new vehicleParams_1.VehicleParams(vehicleinfo);
             let shipmentService = new shipmentService_1.ShipmentService();
-            let estimated = shipmentService.claculateDeliveryTime(shipmentInfo.noOfVehicles, shipmentInfo.maxSpeed, shipmentInfo.maxWeight, pkgList.packages);
-            displayDeliveryTime = true;
-            output(estimated, displayDeliveryTime);
+            let etaEstimatedPkgs = shipmentService.claculateDeliveryTime(shipmentInfo.noOfVehicles, shipmentInfo.maxSpeed, shipmentInfo.maxWeight, pkgList);
+            etaEstimatedPkgs.printWithDeliveryTime();
         }
     }
     catch (e) {

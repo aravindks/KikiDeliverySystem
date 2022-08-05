@@ -3,24 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShipmentService = void 0;
 const vehicleList_1 = require("../class/vehicleList");
 class ShipmentService {
-    claculateDeliveryTime(noOfVehicles, maxSpeed, maxWeight, pkgs) {
-        pkgs = pkgs.sort((a, b) => b.weight - a.weight);
+    claculateDeliveryTime(noOfVehicles, maxSpeed, maxWeight, pkgList) {
+        pkgList = pkgList.sortByWeight();
         let shipments = [];
         let counter = 0;
-        while (counter < pkgs.length) {
+        while (counter < pkgList.packages.length) {
             let containerWeight = 0;
             let container = [];
-            for (let i = counter; i < pkgs.length; i++) {
-                if (pkgs[i].weight > maxWeight) {
+            for (let i = counter; i < pkgList.packages.length; i++) {
+                if (pkgList.packages[i].weight > maxWeight) {
                     counter++;
                     break;
                 }
-                if (containerWeight + pkgs[i].weight > maxWeight) {
+                if (containerWeight + pkgList.packages[i].weight > maxWeight) {
                     break;
                 }
                 counter++;
-                containerWeight += pkgs[i].weight;
-                container.push(pkgs[i]);
+                containerWeight += pkgList.packages[i].weight;
+                container.push(pkgList.packages[i]);
             }
             if (container.length > 0) {
                 shipments.push(container);
@@ -45,11 +45,11 @@ class ShipmentService {
                 }
                 vehiclesList.vehicles[0].time += 2 * maxTime;
             }
-            pkgs = pkgs.sort((a, b) => a.id.localeCompare(b.id));
-            return pkgs;
+            pkgList = pkgList.sortById();
+            return pkgList;
         }
-        pkgs = pkgs.sort((a, b) => a.id.localeCompare(b.id));
-        return pkgs;
+        pkgList = pkgList.sortById();
+        return pkgList;
     }
 }
 exports.ShipmentService = ShipmentService;
