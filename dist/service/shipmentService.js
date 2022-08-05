@@ -1,45 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShipmentService = void 0;
-const vehicleList_1 = require("../class/vehicleList");
+const class_1 = require("../class");
 class ShipmentService {
     claculateDeliveryTime(noOfVehicles, maxSpeed, maxWeight, pkgList) {
-        pkgList = pkgList.sortByWeight();
-        let shipments = [];
-        let counter = 0;
-        while (counter < pkgList.packages.length) {
-            let containerWeight = 0;
-            let container = [];
-            for (let i = counter; i < pkgList.packages.length; i++) {
-                if (pkgList.packages[i].weight > maxWeight) {
-                    counter++;
-                    break;
-                }
-                if (containerWeight + pkgList.packages[i].weight > maxWeight) {
-                    break;
-                }
-                counter++;
-                containerWeight += pkgList.packages[i].weight;
-                container.push(pkgList.packages[i]);
-            }
-            if (container.length > 0) {
-                shipments.push(container);
-            }
-        }
-        if (shipments.length > 0) {
-            shipments = shipments.sort((a, b) => b.length - a.length);
-            let vehiclesList = new vehicleList_1.VehicleList(noOfVehicles, maxSpeed, maxWeight);
+        let shipment = new class_1.Shipment();
+        let shipmentList = shipment.createNewShipments(pkgList, maxWeight);
+        if (shipmentList.packageLists.length > 0) {
+            let shipments = shipment.sortByNoOfPkgs();
+            let vehiclesList = new class_1.VehicleList(noOfVehicles, maxSpeed, maxWeight);
             let _orders = [];
-            for (var i in shipments) {
+            for (let i in shipments) {
                 let shipment = shipments[i];
-                vehiclesList.vehicles = vehiclesList.sortByTime();
                 let maxTime = 0;
-                for (let j in shipment) {
-                    let order = shipment[j];
-                    let timeForOrder = order.distance / maxSpeed;
-                    order.deliveryTime = vehiclesList.vehicles[0].time + timeForOrder;
-                    if (timeForOrder > maxTime) {
-                        maxTime = timeForOrder;
+                vehiclesList.vehicles = vehiclesList.sortByTime();
+                for (let j in shipment.packages) {
+                    let order = shipment.packages[j];
+                    let timeToDeliver = order.calculateTimeToDeliver(maxSpeed);
+                    order.deliveryTime = vehiclesList.vehicles[0].time + timeToDeliver;
+                    if (timeToDeliver > maxTime) {
+                        maxTime = timeToDeliver;
                     }
                     _orders.push(order);
                 }

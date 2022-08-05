@@ -19,5 +19,6 @@
     "noFallthroughCasesInSwitch": true,
     //"forceConsistentCasingInFileNames": true,
     "removeComments": true
-  }
+  },
+  "include": ["src/**/**/*", "tests/**/*"],
 }

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Package = void 0;
-const offer_1 = require("./offer");
+const offer_1 = require("../offer");
 class Package {
     constructor(id, weight, distance, couponValue = 'NODISCOUNT', basecost) {
         this.id = id;

@@ -1,5 +1,4 @@
-import { PackageList } from '../class/packageList';
-import { VehicleList } from '../class/vehicleList';
+import { Shipment, PackageList, VehicleList } from '../class';
 
 export class ShipmentService {
   claculateDeliveryTime(
@@ -8,50 +7,29 @@ export class ShipmentService {
     maxWeight: number,
     pkgList: PackageList
   ): PackageList {
-    pkgList = pkgList.sortByWeight();
-    let shipments = [];
-    let counter = 0;
-    while (counter < pkgList.packages.length) {
-      let containerWeight = 0;
-      let container = [];
+    let shipment = new Shipment();
+    let shipmentList = shipment.createNewShipments(pkgList, maxWeight);
 
-      for (let i = counter; i < pkgList.packages.length; i++) {
-        if(pkgList.packages[i].weight > maxWeight){
-          counter++;
-          break;
-        }
-        if (containerWeight + pkgList.packages[i].weight > maxWeight) {
-          break;
-        }
-        counter++;
-        containerWeight += pkgList.packages[i].weight;
-        container.push(pkgList.packages[i]);
-      }
-      if(container.length > 0){
-        shipments.push(container);
-      } 
-    }
-    if(shipments.length > 0){
-      shipments = shipments.sort((a, b) => b.length - a.length);
+    if(shipmentList.packageLists.length > 0){
+      let shipments = shipment.sortByNoOfPkgs();
       let vehiclesList = new VehicleList(noOfVehicles, maxSpeed, maxWeight);
-  
       let _orders = [];
   
-      for (var i in shipments) {
+      for (let i in shipments) {
         let shipment = shipments[i];
-  
-        vehiclesList.vehicles = vehiclesList.sortByTime();
         let maxTime = 0;
-        for (let j in shipment) {
-          let order = shipment[j];
-          let timeForOrder = order.distance / maxSpeed;
-          order.deliveryTime = vehiclesList.vehicles[0].time + timeForOrder;
+        vehiclesList.vehicles = vehiclesList.sortByTime();
+        for (let j in shipment.packages) {
+          let order = shipment.packages[j];
+          let timeToDeliver = order.calculateTimeToDeliver(maxSpeed);
+          order.deliveryTime = vehiclesList.vehicles[0].time + timeToDeliver;
   
-          if (timeForOrder > maxTime) {
-            maxTime = timeForOrder;
+          if (timeToDeliver > maxTime) {
+            maxTime = timeToDeliver;
           }
           _orders.push(order);
         }
+        // since vehicle has to go back to pickup location, it traverses the way 2 times
         vehiclesList.vehicles[0].time += 2 * maxTime;
       }
       pkgList = pkgList.sortById();

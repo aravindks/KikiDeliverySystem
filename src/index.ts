@@ -1,11 +1,7 @@
 const readline = require('readline')
-import { Package } from './class/package'
-import { getErrorMessage, reportError } from './error/general'
-import { DeliveryParams } from './class/params/deliveryParams'
-import { PackageParams } from './class/params/packageParams'
+import { Package, DeliveryParams, PackageParams, VehicleParams, PackageList} from './class'
 import { ShipmentService } from './service/shipmentService'
-import { VehicleParams } from './class/params/vehicleParams'
-import { PackageList } from './class/packageList'
+import { getErrorMessage, reportError } from './error/general'
 
 const lineReader = readline.createInterface({
   input: process.stdin,

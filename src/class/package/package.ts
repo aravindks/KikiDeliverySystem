@@ -1,4 +1,4 @@
-import { Offer } from './offer'
+import { Offer } from '../offer'
 
 export class Package {
   id: string
@@ -34,5 +34,9 @@ export class Package {
   // logic for delivery cost calculation
   getDeliveryCost(distance: number, weight: number, basecost: number) {
     return basecost + weight * 10 + distance * 5
+  }
+
+  calculateTimeToDeliver(maxSpeed: number){
+    return (this.distance / maxSpeed);
   }
 }
