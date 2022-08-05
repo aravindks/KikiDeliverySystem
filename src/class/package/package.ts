@@ -1,6 +1,6 @@
 import { Offer } from '../offer'
 import { CONSTANT } from '../../util/constants';
-import { Coupon } from 'src/util/coupon';
+import { Coupon } from '../../util/coupon';
 
 export class Package {
   id: string
@@ -26,19 +26,19 @@ export class Package {
     this.distance = distance;
     this.weight = weight;
 
-    this.deliveryCost = this.getDeliveryCost(distance, weight, basecost);
+    this.deliveryCost = this.getDeliveryCost(basecost);
 
     let offer = new Offer(couponValue, distance, weight);
     this.discountFactor = offer.discountFactor;
-
     this.discount = Math.abs(this.deliveryCost * this.discountFactor);
+
     this.totalCost = this.deliveryCost - this.discount;
     this.deliveryTime = CONSTANT.ZERO;
   }
 
   // logic for delivery cost calculation
-  getDeliveryCost(distance: number, weight: number, basecost: number) {
-    return basecost + weight * this.COST_PER_WEIGHT + distance * this.COST_PER_DISTANCE;
+  getDeliveryCost(basecost: number) {
+    return basecost + this.weight * this.COST_PER_WEIGHT + this.distance * this.COST_PER_DISTANCE;
   }
 
   calculateTimeToDeliver(maxSpeed: number){
