@@ -3,4 +3,4 @@ node_modules/
 .prettierignore
 .prettierrc.json
 coverage
-dist
+dist/
