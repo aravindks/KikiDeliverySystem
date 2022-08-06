@@ -15,12 +15,20 @@ $ npm run build
 $ npm run start
 ```
 
+Run tests
+
+```sh
+$ npm run test
+```
+
 sample input
 
 ```sh
-$ 100 4
-$ PKG1 5 5 OFR001
-$ PKG2 15 5 OFR002
-$ PKG3 10 100 OFR003
-$ PKG4 13 9 NOTOFR001
+$ 100 5
+$ PKG1 50 30 OFR001
+$ PKG2 75 125 OFR008
+$ PKG3 175 100 OFR003
+$ PKG3 110 60 OFR002
+$ PKG3 155 95 NA
+$ PKG4 13 9
 ```

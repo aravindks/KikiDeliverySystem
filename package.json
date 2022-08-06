@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "npx tsc",
-    "test:unit": "jest --coverage"
+    "test": "jest --coverage"
   },
   "author": "Aravind",
   "keywords": [],
