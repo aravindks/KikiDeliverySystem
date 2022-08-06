@@ -1,3 +1,4 @@
+import { CONSTANT } from '../util/constants'
 import { Coupon } from '../util/coupon'
 
 type Keys = keyof typeof Coupon
@@ -20,7 +21,7 @@ export class Offer {
     if (this.isDiscountApplicable(applicableOffer, distance, weight)) {
       return applicableOffer.value
     }
-    return 0
+    return CONSTANT.ZERO
   }
 
   // Given Logic to check if discount is applicable

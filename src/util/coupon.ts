@@ -3,7 +3,7 @@ export const Coupon = {
     minWeight: 70,
     maxWeight: 200,
     minDistance: 0,
-    maxDistance: 200,
+    maxDistance: 199,
     value: 0.1,
     text: "OFR001",
   },
