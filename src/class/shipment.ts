@@ -34,7 +34,7 @@ export class Shipment {
       }
       if(container.packages.length > 0){
         this.packageLists.push(container);
-      } 
+      }
     }
     return this;
   }

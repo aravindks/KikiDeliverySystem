@@ -37,11 +37,11 @@ export class Package {
   }
 
   // logic for delivery cost calculation
-  getDeliveryCost(basecost: number) {
+  getDeliveryCost(basecost: number): number {
     return basecost + this.weight * this.COST_PER_WEIGHT + this.distance * this.COST_PER_DISTANCE;
   }
 
-  calculateTimeToDeliver(maxSpeed: number){
+  calculateTimeToDeliver(maxSpeed: number): number {
     return (this.distance / maxSpeed);
   }
 }
