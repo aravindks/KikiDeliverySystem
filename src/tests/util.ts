@@ -1,10 +1,11 @@
 import { CONSTANT } from '../util/constants'
 import { PackageList, Package, VehicleList } from '../class'
 
-const BASE_COST = CONSTANT.HUNDRED
-const VEHICLE_NUMBER = CONSTANT.TWO
-const MAX_SPEED = CONSTANT.HUNDRED
-const VEHICLE_SPEED = CONSTANT.TEN
+export const BASE_COST = CONSTANT.HUNDRED;
+export const VEHICLE_NUMBER = CONSTANT.TWO;
+export const MAX_SPEED = CONSTANT.SEVENTY;
+export const VEHICLE_SPEED = CONSTANT.TEN;
+export const MAX_WEIGHT = CONSTANT.TWOHUNDRED;
 export const packages = [
   {
     id: 'pkg1',
@@ -38,14 +39,6 @@ export const packages = [
   },
 ]
 
-export function createPackage() {
-  console.log('hello')
-}
-
-export function createShipment() {
-  console.log('hello')
-}
-
 export function createPackageList(
   pkgs = packages,
   baseCost = BASE_COST
@@ -59,7 +52,7 @@ export function createPackageList(
   return pkgList
 }
 
-export function vehicleList(): VehicleList {
+export function createVehicleList(): VehicleList {
   let vehicleList = new VehicleList(VEHICLE_NUMBER, VEHICLE_SPEED, MAX_SPEED)
   return vehicleList
 }

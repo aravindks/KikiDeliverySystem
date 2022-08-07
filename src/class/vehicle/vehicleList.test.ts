@@ -1,8 +1,8 @@
-import { vehicleList } from '../../tests/util'
+import { createVehicleList } from '../../tests/util'
 
 describe('sort vehicle based on time', () => {
   it('sort vehicles by time', () => {
-    let vehicles = vehicleList()
+    let vehicles = createVehicleList()
     vehicles.vehicles[0].time = 0.2
     vehicles.vehicles[1].time = 0.1
     vehicles.sortByTime()

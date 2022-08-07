@@ -4,5 +4,7 @@ export const CONSTANT = {
   TWO: 2,
   FIVE: 5,
   TEN: 10,
+  SEVENTY: 70,
   HUNDRED: 100,
+  TWOHUNDRED: 200,
 }
