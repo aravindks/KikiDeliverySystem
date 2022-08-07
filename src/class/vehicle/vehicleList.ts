@@ -1,17 +1,17 @@
-import { Vehicle } from "./vehicle";
+import { Vehicle } from './vehicle'
 
 export class VehicleList {
-  vehicles: Vehicle[];
+  vehicles: Vehicle[]
 
-  constructor(numberOfVehicles: number, speed: number, maxWeight: number){
-    let vehicles:Vehicle[] = [];
-    for(let i=0; i< numberOfVehicles; i++){
-      vehicles[i] = new Vehicle(speed, maxWeight);
+  constructor(numberOfVehicles: number, speed: number, maxWeight: number) {
+    let vehicles: Vehicle[] = []
+    for (let i = 0; i < numberOfVehicles; i++) {
+      vehicles[i] = new Vehicle(speed, maxWeight)
     }
-    this.vehicles = vehicles;
+    this.vehicles = vehicles
   }
 
-  sortByTime(){
-    return this.vehicles.sort((a,b) => a.time - b.time);
+  sortByTime() {
+    return this.vehicles.sort((a, b) => a.time - b.time)
   }
 }

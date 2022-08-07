@@ -1,5 +1,11 @@
 const readline = require('readline')
-import { Package, DeliveryParams, PackageParams, VehicleParams, PackageList} from './class'
+import {
+  Package,
+  DeliveryParams,
+  PackageParams,
+  VehicleParams,
+  PackageList,
+} from './class'
 import { ShipmentService } from './service/shipmentService'
 import { getErrorMessage, reportError } from './error/general'
 
@@ -18,7 +24,7 @@ function prompt(): Promise<string> {
 
 async function init() {
   try {
-    let pkgList = new PackageList();
+    let pkgList = new PackageList()
 
     // parse first set of parameters
     let data = (await prompt()).split(' ')
@@ -43,7 +49,7 @@ async function init() {
 
     // Print output
     if (!vehicleinfo[0]) {
-      pkgList.printWithoutDeliveryTime();
+      pkgList.printWithoutDeliveryTime()
     } else {
       let shipmentInfo = new VehicleParams(vehicleinfo)
       let shipmentService = new ShipmentService()
@@ -53,7 +59,7 @@ async function init() {
         shipmentInfo.maxWeight,
         pkgList
       )
-      etaEstimatedPkgs.printWithDeliveryTime();
+      etaEstimatedPkgs.printWithDeliveryTime()
     }
   } catch (e) {
     reportError({ message: getErrorMessage(e) })

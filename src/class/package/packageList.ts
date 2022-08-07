@@ -1,20 +1,20 @@
-import { Package } from "./package";
+import { Package } from './package'
 
 export class PackageList {
-  packages: Package[];
+  packages: Package[]
 
   constructor() {
-    this.packages = [];
+    this.packages = []
   }
 
   sortByWeight(): PackageList {
-    this.packages.sort((a, b) => b.weight - a.weight);
-    return this;
+    this.packages.sort((a, b) => b.weight - a.weight)
+    return this
   }
 
   sortById(): PackageList {
-    this.packages.sort((a, b) => a.id.localeCompare(b.id));
-    return this;
+    this.packages.sort((a, b) => a.id.localeCompare(b.id))
+    return this
   }
 
   printWithDeliveryTime(): void {
@@ -24,17 +24,13 @@ export class PackageList {
         pkg.discount.toFixed(2),
         pkg.totalCost.toFixed(2),
         pkg.deliveryTime.toFixed(2)
-      );
+      )
     })
   }
 
   printWithoutDeliveryTime(): void {
     this.packages.forEach(function (pkg) {
-      console.log(
-        pkg.id,
-        pkg.discount.toFixed(2),
-        pkg.totalCost.toFixed(2),
-      );
+      console.log(pkg.id, pkg.discount.toFixed(2), pkg.totalCost.toFixed(2))
     })
   }
 }
