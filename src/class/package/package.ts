@@ -2,6 +2,9 @@ import { Offer } from '../offer'
 import { CONSTANT } from '../../util/constants'
 import { Coupon } from '../../util/coupon'
 
+const COST_PER_WEIGHT = CONSTANT.TEN
+const COST_PER_DISTANCE = CONSTANT.FIVE
+
 export class Package {
   id: string
   distance: number
@@ -11,9 +14,6 @@ export class Package {
   discount: number
   totalCost: number
   deliveryTime: number
-
-  private readonly COST_PER_WEIGHT = CONSTANT.TEN
-  private readonly COST_PER_DISTANCE = CONSTANT.FIVE
 
   constructor(
     id: string,
@@ -40,8 +40,8 @@ export class Package {
   getDeliveryCost(basecost: number): number {
     return (
       basecost +
-      this.weight * this.COST_PER_WEIGHT +
-      this.distance * this.COST_PER_DISTANCE
+      this.weight * COST_PER_WEIGHT +
+      this.distance * COST_PER_DISTANCE
     )
   }
 

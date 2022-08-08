@@ -22,18 +22,18 @@ function prompt(): Promise<string> {
   })
 }
 
-async function init() {
+export async function init() {
   try {
     let pkgList = new PackageList()
 
     // parse first set of parameters
-    let data = (await prompt()).split(' ')
-    const deliveryInfo = new DeliveryParams(data)
+    let firstParam = (await prompt()).split(' ')
+    const deliveryInfo = new DeliveryParams(firstParam)
 
     // parse second set of parameters containing packages info
     for (let i = 0; i < deliveryInfo.noOfPkgs; i++) {
-      let info = (await prompt()).split(' ')
-      const packageInfo = new PackageParams(info)
+      let secParam = (await prompt()).split(' ')
+      const packageInfo = new PackageParams(secParam)
       const pkg = new Package(
         packageInfo.id,
         packageInfo.weight,
