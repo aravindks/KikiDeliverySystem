@@ -8,7 +8,12 @@ export class PackageList {
   }
 
   sortByWeight(): PackageList {
-    this.packages.sort((a, b) => b.weight - a.weight)
+    this.packages.sort((a, b) => a.weight - b.weight)
+    return this
+  }
+
+  sortByDistance(): PackageList {
+    this.packages.sort((a, b) => b.distance - a.distance)
     return this
   }
 

@@ -1,3 +1,4 @@
+import { MaxSubSetCalculator } from '../util/maxSubsetCalculator'
 import { Shipment, PackageList, VehicleList } from '../class'
 
 export class ShipmentService {
@@ -7,14 +8,12 @@ export class ShipmentService {
     maxWeight: number,
     pkgList: PackageList
   ): PackageList {
-    let shipment = new Shipment()
-    let shipmentList = shipment.createNewShipments(pkgList, maxWeight)
-
+    let shipmentList = new Shipment()
+    shipmentList = this.createNewShipments(pkgList, maxWeight)
     if (shipmentList.packageLists.length > 0) {
-      let shipments = shipment.sortByNoOfPkgs()
+      let shipments = shipmentList.sortByNoOfPkgs()
       let vehiclesList = new VehicleList(noOfVehicles, maxSpeed, maxWeight)
       let _orders = []
-
       for (let i in shipments) {
         let shipment = shipments[i]
         let maxTime = 0
@@ -37,5 +36,47 @@ export class ShipmentService {
     }
     pkgList = pkgList.sortById()
     return pkgList
+  }
+
+  createNewShipments(pkgList: PackageList, maxWeight: number): Shipment {
+    let selectedPackageList = new PackageList();
+    let shipment = new Shipment();
+    while(this._isPackageAvailable(pkgList)){
+      selectedPackageList = this._getPackagesToDispatch(pkgList, maxWeight);
+      selectedPackageList.packages.forEach(function(pkg){
+        let index = pkgList.packages.findIndex((val) => val.id === pkg.id)
+        pkgList.packages[index].isDelivered = true;
+      })
+      shipment.packageLists.push(selectedPackageList);
+    }
+    return shipment;
+  }
+
+  _getPackagesToDispatch(pkgList: PackageList, maxWeight: number){
+    let selectedPkgList = new PackageList();
+    let weightsList = pkgList.packages.filter((val) => !val.isDelivered).map((pkg) => pkg.weight);
+    let maxSubSetCalulator = new MaxSubSetCalculator();
+    let selectedWeights = maxSubSetCalulator.getMaxSubsetLessThan(weightsList, maxWeight+1);
+    for(let i =0; i < selectedWeights.length ; i++){
+      let pkgsWithSameWeight = pkgList.packages.filter((pkg) => pkg.weight === selectedWeights[i] && pkg.isAvailable )
+      if(pkgsWithSameWeight.length ===1){
+        pkgsWithSameWeight[0].isAvailable = false;
+        selectedPkgList.packages.push(pkgsWithSameWeight[0])
+      } else {
+        pkgsWithSameWeight = pkgsWithSameWeight.filter((pkg)=> pkg.isAvailable);
+        pkgsWithSameWeight[0].isAvailable = false;
+        selectedPkgList.packages.push(pkgsWithSameWeight[0]);
+      }
+    }
+    let sortedByDistance = selectedPkgList.sortByDistance();
+    return sortedByDistance;
+  }
+  _isPackageAvailable(pkgList: PackageList){
+    let pkgs = pkgList.packages.filter((pkg) => !pkg.isDelivered)
+    if(pkgs.length > 0){
+      return true;
+    } else {
+      return false
+    }
   }
 }
