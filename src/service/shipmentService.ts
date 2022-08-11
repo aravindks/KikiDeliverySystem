@@ -10,6 +10,7 @@ export class ShipmentService {
   ): PackageList {
     let shipmentList = new Shipment()
     shipmentList = this.createNewShipments(pkgList, maxWeight)
+    console.log("shipmentlist", JSON.stringify(shipmentList.packageLists));
     if (shipmentList.packageLists.length > 0) {
       let shipments = shipmentList.sortByNoOfPkgs()
       let vehiclesList = new VehicleList(noOfVehicles, maxSpeed, maxWeight)
@@ -63,7 +64,7 @@ export class ShipmentService {
         pkgsWithSameWeight[0].isAvailable = false;
         selectedPkgList.packages.push(pkgsWithSameWeight[0])
       } else {
-        pkgsWithSameWeight = pkgsWithSameWeight.filter((pkg)=> pkg.isAvailable);
+        pkgsWithSameWeight = pkgsWithSameWeight.filter((pkg)=> pkg.isAvailable).sort((a,b)=> a.distance - b.distance);
         pkgsWithSameWeight[0].isAvailable = false;
         selectedPkgList.packages.push(pkgsWithSameWeight[0]);
       }
