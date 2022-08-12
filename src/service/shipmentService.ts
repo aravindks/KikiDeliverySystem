@@ -10,7 +10,6 @@ export class ShipmentService {
   ): PackageList {
     let shipmentList = new Shipment()
     shipmentList = this.createNewShipments(pkgList, maxWeight)
-    console.log("shipmentlist", JSON.stringify(shipmentList.packageLists));
     if (shipmentList.packageLists.length > 0) {
       let shipments = shipmentList.sortByNoOfPkgs()
       let vehiclesList = new VehicleList(noOfVehicles, maxSpeed, maxWeight)
