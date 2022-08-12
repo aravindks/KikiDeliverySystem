@@ -1,4 +1,4 @@
-import { Offer } from '../offer';
+import { Offer } from '../offer'
 import { CONSTANT } from '../../util/constants'
 import { Coupon } from '../../util/coupon'
 
@@ -27,8 +27,8 @@ export class Package {
     this.id = id
     this.distance = distance
     this.weight = weight
-    this.isAvailable = true;
-    this.isDelivered = false;
+    this.isAvailable = true
+    this.isDelivered = false
 
     this.deliveryCost = this.getDeliveryCost(basecost)
 

@@ -8,7 +8,7 @@ describe('sort shipments in shipment', () => {
   it('should sort shipments accord to packages length', () => {
     const pkgList = createPackageList()
     let shipment = new Shipment()
-    let shipmentService = new ShipmentService();
+    let shipmentService = new ShipmentService()
     shipment = shipmentService.createNewShipments(pkgList, MAX_WEIGHT)
     const sortedShipment = shipment.sortByNoOfPkgs()
     expect(sortedShipment[0].packages.length).toBe(2)

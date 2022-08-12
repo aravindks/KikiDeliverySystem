@@ -1,11 +1,11 @@
 import { CONSTANT } from '../util/constants'
 import { PackageList, Package, VehicleList } from '../class'
 
-export const BASE_COST = CONSTANT.HUNDRED;
-export const VEHICLE_NUMBER = CONSTANT.TWO;
-export const MAX_SPEED = CONSTANT.SEVENTY;
-export const VEHICLE_SPEED = CONSTANT.TEN;
-export const MAX_WEIGHT = CONSTANT.TWOHUNDRED;
+export const BASE_COST = CONSTANT.HUNDRED
+export const VEHICLE_NUMBER = CONSTANT.TWO
+export const MAX_SPEED = CONSTANT.SEVENTY
+export const VEHICLE_SPEED = CONSTANT.TEN
+export const MAX_WEIGHT = CONSTANT.TWOHUNDRED
 export const packages = [
   {
     id: 'pkg1',

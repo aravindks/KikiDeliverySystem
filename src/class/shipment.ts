@@ -13,5 +13,4 @@ export class Shipment {
       (a, b) => b.packages.length - a.packages.length
     )
   }
-  
 }
