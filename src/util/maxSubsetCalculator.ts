@@ -66,7 +66,7 @@ export class MaxSubSetCalculator {
     )
   }
 
-  _compareSets(preMax: number, curSize: number, elements: number[]) {
+  private _compareSets(preMax: number, curSize: number, elements: number[]) {
     if (preMax == this.maximumSetSum && curSize > this.arrSize) {
       this.arrSize = curSize
       this.chosenPowerSet = elements

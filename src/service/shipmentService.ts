@@ -41,8 +41,8 @@ export class ShipmentService {
   createNewShipments(pkgList: PackageList, maxWeight: number): Shipment {
     let selectedPackageList = new PackageList()
     let shipment = new Shipment()
-    while (this._isPackageAvailable(pkgList)) {
-      selectedPackageList = this._getPackagesToDispatch(pkgList, maxWeight)
+    while (this._anyPackageLeftForDelivery(pkgList)) {
+      selectedPackageList = this._getShipmentToDispatch(pkgList, maxWeight)
       selectedPackageList.packages.forEach(function (pkg) {
         let index = pkgList.packages.findIndex((val) => val.id === pkg.id)
         pkgList.packages[index].isDelivered = true
@@ -52,7 +52,7 @@ export class ShipmentService {
     return shipment
   }
 
-  _getPackagesToDispatch(pkgList: PackageList, maxWeight: number): PackageList {
+  private _getShipmentToDispatch(pkgList: PackageList, maxWeight: number): PackageList {
     let selectedPkgList = new PackageList()
     let weightsList = pkgList.packages
       .filter((val) => !val.isDelivered)
@@ -80,7 +80,8 @@ export class ShipmentService {
     let sortedByDistance = selectedPkgList.sortByDistance()
     return sortedByDistance
   }
-  _isPackageAvailable(pkgList: PackageList): boolean {
+
+  private _anyPackageLeftForDelivery(pkgList: PackageList): boolean {
     let pkgs = pkgList.packages.filter((pkg) => !pkg.isDelivered)
     if (pkgs.length > 0) {
       return true

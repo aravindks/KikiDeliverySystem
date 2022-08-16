@@ -28,7 +28,7 @@ export async function init() {
 
     // parse first set of parameters
     let firstParam = (await prompt()).split(' ')
-    const deliveryInfo = new DeliveryParams(firstParam)
+    const deliveryInfo = new DeliveryParams(firstParam);
 
     // parse second set of parameters containing packages info
     for (let i = 0; i < deliveryInfo.noOfPkgs; i++) {
@@ -52,6 +52,7 @@ export async function init() {
       pkgList.printWithoutDeliveryTime()
     } else {
       let shipmentInfo = new VehicleParams(vehicleinfo)
+      shipmentInfo.validate(pkgList);
       let shipmentService = new ShipmentService()
       let etaEstimatedPkgs = shipmentService.claculateDeliveryTime(
         shipmentInfo.noOfVehicles,
