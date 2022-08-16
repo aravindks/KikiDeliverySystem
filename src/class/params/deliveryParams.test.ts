@@ -7,4 +7,10 @@ describe('throw error for invalid params', () => {
     expect(() =>{new DeliveryParams(param)}).toThrowError
     expect(() =>{new DeliveryParams(param)}).toThrow(ErrorMessages.INVALIDPARAM)
   })
+
+  it('should throw error with proper message for invalid param', () => {
+    let param = ['0', '70']
+    expect(() =>{new DeliveryParams(param)}).toThrowError
+    expect(() =>{new DeliveryParams(param)}).toThrow(ErrorMessages.INVALIDPARAM)
+  })
 })

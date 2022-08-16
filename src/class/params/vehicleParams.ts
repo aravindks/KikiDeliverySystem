@@ -12,7 +12,10 @@ export class VehicleParams {
     if (
       isNaN(this.noOfVehicles) ||
       isNaN(this.maxSpeed) ||
-      isNaN(this.maxWeight)
+      isNaN(this.maxWeight) ||
+      this.noOfVehicles <= 0 ||
+      this.maxSpeed <= 0 ||
+      this.maxWeight <= 0
     ) {
       throw new Error(ErrorMessages.INVALIDPARAM)
     }

@@ -9,6 +9,12 @@ describe('throw error for invalid params', () => {
     expect(() =>{new VehicleParams(param)}).toThrow(ErrorMessages.INVALIDPARAM)
   })
 
+  it('should throw error with proper message for invalid param', () => {
+    let param = ['0', '0', '0']
+    expect(() =>{new VehicleParams(param)}).toThrowError
+    expect(() =>{new VehicleParams(param)}).toThrow(ErrorMessages.INVALIDPARAM)
+  })
+
   it('should throw error with proper message for excess pkg weight', () => {
     let param = ['1', '50', '50']
     let pkgList = createPackageList([

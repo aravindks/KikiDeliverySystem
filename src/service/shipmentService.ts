@@ -1,55 +1,31 @@
 import { MaxSubSetCalculator } from '../util/maxSubsetCalculator'
-import { Shipment, PackageList, VehicleList } from '../class'
+import { PackageList, VehicleList } from '../class'
 
 export class ShipmentService {
-  claculateDeliveryTime(
+  public claculateDeliveryTime(
     noOfVehicles: number,
     maxSpeed: number,
     maxWeight: number,
     pkgList: PackageList
   ): PackageList {
-    let shipmentList = new Shipment()
-    shipmentList = this.createNewShipments(pkgList, maxWeight)
-    if (shipmentList.packageLists.length > 0) {
-      let shipments = shipmentList.sortByNoOfPkgs()
-      let vehiclesList = new VehicleList(noOfVehicles, maxSpeed, maxWeight)
-      let _orders = []
-      for (let i in shipments) {
-        let shipment = shipments[i]
-        let maxTime = 0
-        vehiclesList.vehicles = vehiclesList.sortByTime()
-        for (let j in shipment.packages) {
-          let order = shipment.packages[j]
-          let timeToDeliver = order.calculateTimeToDeliver(maxSpeed)
-          order.deliveryTime = vehiclesList.vehicles[0].time + timeToDeliver
-
-          if (timeToDeliver > maxTime) {
-            maxTime = timeToDeliver
-          }
-          _orders.push(order)
+    let vehicles = new VehicleList(noOfVehicles, maxSpeed, maxWeight);
+    while(this._anyPackageLeftForDelivery(pkgList)){
+      let freeVehicle = vehicles.getFreeVehicle();
+      let packagesToDispatch = this._getShipmentToDispatch(pkgList, maxWeight)
+      let maxDistance  = 0;
+      if(freeVehicle){
+        for(let i in packagesToDispatch.packages){
+          let order = packagesToDispatch.packages[i]
+          maxDistance = Math.max(maxDistance, order.distance);
+          let pkgIndex = pkgList.packages.findIndex((val) => val.id === order.id)
+          pkgList.packages[pkgIndex].deliveryTime = freeVehicle.timeTravelled + order.calculateTimeToDeliver(maxSpeed)
+          pkgList.packages[pkgIndex].isDelivered = true;
         }
         // since vehicle has to go back to pickup location, it traverses the way 2 times
-        vehiclesList.vehicles[0].time += 2 * maxTime
+        freeVehicle.timeTobeFree = (maxDistance * 2 )/ maxSpeed
       }
-      pkgList = pkgList.sortById()
-      return pkgList
     }
-    pkgList = pkgList.sortById()
     return pkgList
-  }
-
-  createNewShipments(pkgList: PackageList, maxWeight: number): Shipment {
-    let selectedPackageList = new PackageList()
-    let shipment = new Shipment()
-    while (this._anyPackageLeftForDelivery(pkgList)) {
-      selectedPackageList = this._getShipmentToDispatch(pkgList, maxWeight)
-      selectedPackageList.packages.forEach(function (pkg) {
-        let index = pkgList.packages.findIndex((val) => val.id === pkg.id)
-        pkgList.packages[index].isDelivered = true
-      })
-      shipment.packageLists.push(selectedPackageList)
-    }
-    return shipment
   }
 
   private _getShipmentToDispatch(pkgList: PackageList, maxWeight: number): PackageList {
@@ -60,7 +36,7 @@ export class ShipmentService {
     let maxSubSetCalulator = new MaxSubSetCalculator()
     let selectedWeights = maxSubSetCalulator.getMaxSubsetLessThan(
       weightsList,
-      maxWeight + 1
+      maxWeight
     )
     for (let i = 0; i < selectedWeights.length; i++) {
       let pkgsWithSameWeight = pkgList.packages.filter(
