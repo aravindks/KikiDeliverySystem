@@ -14,7 +14,7 @@ export class Vehicle {
     this.id = id
   }
 
-  public get isFree(){
+  public get isFree() {
     return this.timeTobeFree === 0
   }
 }

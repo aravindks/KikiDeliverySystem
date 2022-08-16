@@ -11,7 +11,12 @@ export class PackageParams {
     this.weight = parseInt(params[1])
     this.distance = parseInt(params[2])
     this.coupon = params[3]
-    if (isNaN(this.weight) || isNaN(this.distance) || this.weight <= 0 || this.distance <= 0) {
+    if (
+      isNaN(this.weight) ||
+      isNaN(this.distance) ||
+      this.weight <= 0 ||
+      this.distance <= 0
+    ) {
       throw new Error(ErrorMessages.INVALIDPARAM)
     }
   }

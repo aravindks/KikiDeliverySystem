@@ -21,9 +21,9 @@ export class VehicleParams {
     }
   }
 
-  validate(pkgList: PackageList){
-    for(let i =0; i < pkgList.packages.length; i++){
-      if(pkgList.packages[i].weight > this.maxWeight){
+  validate(pkgList: PackageList) {
+    for (let i = 0; i < pkgList.packages.length; i++) {
+      if (pkgList.packages[i].weight > this.maxWeight) {
         throw new Error(ErrorMessages.EXCESSWEIGHT)
       }
     }

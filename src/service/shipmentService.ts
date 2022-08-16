@@ -8,27 +8,33 @@ export class ShipmentService {
     maxWeight: number,
     pkgList: PackageList
   ): PackageList {
-    let vehicles = new VehicleList(noOfVehicles, maxSpeed, maxWeight);
-    while(this._anyPackageLeftForDelivery(pkgList)){
-      let freeVehicle = vehicles.getFreeVehicle();
+    let vehicles = new VehicleList(noOfVehicles, maxSpeed, maxWeight)
+    while (this._anyPackageLeftForDelivery(pkgList)) {
+      let freeVehicle = vehicles.getFreeVehicle()
       let packagesToDispatch = this._getShipmentToDispatch(pkgList, maxWeight)
-      let maxDistance  = 0;
-      if(freeVehicle){
-        for(let i in packagesToDispatch.packages){
+      let maxDistance = 0
+      if (freeVehicle) {
+        for (let i in packagesToDispatch.packages) {
           let order = packagesToDispatch.packages[i]
-          maxDistance = Math.max(maxDistance, order.distance);
-          let pkgIndex = pkgList.packages.findIndex((val) => val.id === order.id)
-          pkgList.packages[pkgIndex].deliveryTime = freeVehicle.timeTravelled + order.calculateTimeToDeliver(maxSpeed)
-          pkgList.packages[pkgIndex].isDelivered = true;
+          maxDistance = Math.max(maxDistance, order.distance)
+          let pkgIndex = pkgList.packages.findIndex(
+            (val) => val.id === order.id
+          )
+          pkgList.packages[pkgIndex].deliveryTime =
+            freeVehicle.timeTravelled + order.calculateTimeToDeliver(maxSpeed)
+          pkgList.packages[pkgIndex].isDelivered = true
         }
         // since vehicle has to go back to pickup location, it traverses the way 2 times
-        freeVehicle.timeTobeFree = (maxDistance * 2 )/ maxSpeed
+        freeVehicle.timeTobeFree = (maxDistance * 2) / maxSpeed
       }
     }
     return pkgList
   }
 
-  private _getShipmentToDispatch(pkgList: PackageList, maxWeight: number): PackageList {
+  private _getShipmentToDispatch(
+    pkgList: PackageList,
+    maxWeight: number
+  ): PackageList {
     let selectedPkgList = new PackageList()
     let weightsList = pkgList.packages
       .filter((val) => !val.isDelivered)

@@ -15,17 +15,17 @@ export class VehicleList {
     return this.vehicles.sort((a, b) => a.timeTobeFree - b.timeTobeFree)
   }
 
-  getFreeVehicle(): Vehicle{
-    let freeVehicleIndex = this.vehicles.findIndex((val) => val.isFree);
-    if(freeVehicleIndex === -1){
-      let freeVehicles = this.sortByTime();
-      const timeTobeFree = freeVehicles[0].timeTobeFree;
-      this.vehicles.forEach(function(v){
-        v.timeTravelled += timeTobeFree;
-        v.timeTobeFree -= timeTobeFree;
+  getFreeVehicle(): Vehicle {
+    let freeVehicleIndex = this.vehicles.findIndex((val) => val.isFree)
+    if (freeVehicleIndex === -1) {
+      let freeVehicles = this.sortByTime()
+      const timeTobeFree = freeVehicles[0].timeTobeFree
+      this.vehicles.forEach(function (v) {
+        v.timeTravelled += timeTobeFree
+        v.timeTobeFree -= timeTobeFree
       })
-      return freeVehicles[0];
+      return freeVehicles[0]
     }
-    return this.vehicles[freeVehicleIndex];
+    return this.vehicles[freeVehicleIndex]
   }
 }
